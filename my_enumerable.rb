@@ -1,25 +1,19 @@
 module MyEnumerable
   def all?
-    check_enum = true
-    each do |enum|
-      check_enum = false unless yield enum
-    end
-    check_enum
+    elts = []
+    list.each { |n| elts << n if yield n }
+    puts elts.length == list.length
   end
 
   def any?
-    check_enum = false
-    each do |enum|
-      check_enum = true if yield enum
-    end
-    check_enum
+    elts = []
+    list.each { |n| elts << n if yield n }
+    puts !elts.empty?
   end
 
   def filter
-    check_enum = []
-    each do |enum|
-      check_enum << enum if yield enum
-    end
-    check_enum
+    elts = []
+    list.each { |n| elts << n if yield n }
+    p elts
   end
 end

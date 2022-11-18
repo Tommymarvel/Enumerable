@@ -1,25 +1,36 @@
 require_relative 'my_enumerable'
-
 class MyList
   include MyEnumerable
-  def initialize(*list)
-    @list = list
+
+  def initialize(*args)
+    @list = []
+    args.each { |arg| @list << arg }
   end
 
-  def each(&block)
-    @list.each(&block)
+  attr_reader :list
+
+  def each
+    yield "<MyList: @list=#{@list}>"
   end
 end
 
-list = MyList.new(1, 2, 3, 4) # Test #all?
+list = MyList.new(1, 2, 3, 4)
+# puts list.list
 
-puts(list.all? { |e| e < 5 })
+list.each { |n| puts n }
+
+# Test #all?
+list.all? { |e| e < 5 }
 # => true
-puts(list.all? { |e| e > 5 })
-# => false# # Test #any?
-puts(list.any? { |e| e == 2 })
+list.all? { |e| e > 5 }
+# => false
+
+# Test #any?
+list.any? { |e| e == 2 }
 # => true
-puts(list.any? { |e| e == 5 })
-# => false# # Test #filter
-puts(list.filter(&:even?))
+list.any? { |e| e == 5 }
+# => false
+
+# Test #filter
+list.filter(&:even?)
 # => [2, 4]
